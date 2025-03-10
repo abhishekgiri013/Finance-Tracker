@@ -1,16 +1,16 @@
 import { connectToDB } from "@/lib/mongodb.js";
 import transaction from "@/models/transaction";
-
+import { NextResponse } from "next/server";
 // GET: Fetch all transactions
 export async function GET() {
     try {
-        await connectToDB();
-        const transactions = await transaction.find().sort({ createdAt: -1 });
-        return Response.json(transactions, { status: 200 });
+      await connectToDB();
+      const transactions = await transaction.find();
+      return NextResponse.json(transactions, { status: 200 });
     } catch (error) {
-        return Response.json({ message: "Error fetching transactions", error }, { status: 500 });
+      return NextResponse.json({ message: "Error fetching transactions", error }, { status: 500 });
     }
-}
+  }
 
 // POST: Create a new transaction
 export async function POST(req) {

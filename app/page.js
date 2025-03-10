@@ -7,16 +7,17 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [transactions, setTransactions] = useState([]);
 
-  const fetchTransactions = async () => {
-    try {
-      const res = await fetch("/api/transactions");
-      const data = await res.json();
-      console.log("Fetched Transactions:", data);
-      setTransactions(data);
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
-  };
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://your-deployed-url.com";
+
+const fetchTransactions = async () => {
+  try {
+    const res = await fetch(`${API_URL}/api/transactions`);
+    const data = await res.json();
+    setTransactions(data);
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+  }
+};
 
   const handleDelete = async (id) => {
     await fetch(`/api/transactions/${id}`, { method: "DELETE" });
